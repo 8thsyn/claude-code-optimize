@@ -7,7 +7,7 @@ allowed-tools: "Read Write Edit Bash Glob Grep WebSearch"
 
 # Project Stack Optimizer
 
-Analyze your project, detect what you're building, and configure Claude Code for it — skills, MCPs, hooks, and rules for your exact stack.
+Analyze your project and configure Claude Code for what you're actually building -- skills, MCP servers, hooks, and rules matched to your framework, language, and database.
 
 ## Quick Start
 
