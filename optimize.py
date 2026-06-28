@@ -219,6 +219,10 @@ FRAMEWORK_DETECT_MAP = {
     "remix": {"dep": "@remix-run/react"},
     "solid": {"dep": "solid-js"},
     "trpc": {"dep": "@trpc/client"},
+    "vite": {"dep": "vite"},
+    "webpack": {"dep": "webpack"},
+    "esbuild": {"dep": "esbuild"},
+    "rollup": {"dep": "rollup"},
 }
 
 PY_FRAMEWORK_DETECT_MAP = {

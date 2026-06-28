@@ -176,6 +176,22 @@
     },
     "nuxt": {
       "detect": { "dep": "nuxt" },
+
+      "vite": {
+        "detect": { "dep": "vite" },
+        "extends": [],
+        "skills": [],
+        "mcps": [],
+        "hooks": {
+          "PostToolUse": ["npx vite build 2>/dev/null || true"]
+        },
+        "rules": [
+          "Vite config in vite.config.ts is the source of truth",
+          "Use Vite's proxy for API forwarding in dev mode"
+        ],
+        "settings": {},
+        "reason": "Vite is a build tool. These rules keep config consistent and enable fast dev iteration."
+      },
       "extends": ["vue", "typescript"],
       "skills": [],
       "mcps": [],
