@@ -1,0 +1,448 @@
+{
+  "$schema": "Config schema for project → tool recommendations",
+  "version": "1.0.0",
+
+  "indicators": {
+    "package_json": {
+      "file": "package.json",
+      "parser": "json",
+      "type": "node"
+    },
+    "pyproject_toml": {
+      "file": "pyproject.toml",
+      "parser": "toml",
+      "type": "python"
+    },
+    "requirements_txt": {
+      "file": "requirements.txt",
+      "parser": "text",
+      "type": "python"
+    },
+    "cargo_toml": { "file": "Cargo.toml", "parser": "toml", "type": "rust" },
+    "go_mod": { "file": "go.mod", "parser": "text", "type": "go" },
+    "gemfile": { "file": "Gemfile", "parser": "text", "type": "ruby" },
+    "csproj": { "file": "*.csproj", "parser": "glob", "type": "dotnet" },
+    "dockerfile": { "file": "Dockerfile", "parser": "exists", "type": "infra" },
+    "docker_compose": {
+      "file": "docker-compose.yml",
+      "parser": "exists",
+      "type": "infra"
+    },
+    "terraform": { "file": "*.tf", "parser": "glob", "type": "infra" },
+    "github_actions": {
+      "file": ".github/workflows/*.yml",
+      "parser": "glob",
+      "type": "ci"
+    },
+    "vercel_json": {
+      "file": "vercel.json",
+      "parser": "json",
+      "type": "deploy"
+    },
+    "netlify_toml": {
+      "file": "netlify.toml",
+      "parser": "toml",
+      "type": "deploy"
+    }
+  },
+
+  "frameworks": {
+    "nextjs": {
+      "detect": { "dep": "next" },
+      "extends": ["react", "typescript"],
+      "skills": [
+        "vercel-composition-patterns",
+        "shadcn",
+        "react-best-practices",
+        "vercel-optimize"
+      ],
+      "mcps": ["playwright-mcp", "chrome-devtools"],
+      "hooks": {
+        "PostToolUse": ["npm run build --no-cache 2>/dev/null || true"]
+      },
+      "rules": [
+        "Use App Router conventions (page.tsx, layout.tsx, loading.tsx)",
+        "Server Components by default, 'use client' only when needed",
+        "Route handlers in app/api/ directory",
+        "Metadata API for SEO, not Head component"
+      ],
+      "settings": {
+        "permissions": { "allow": ["bun", "npm run build"] }
+      },
+      "reason": "Next.js is a full-stack React framework. These skills optimize for server components, App Router patterns, and Vercel deployment."
+    },
+    "react": {
+      "detect": { "dep": "react" },
+      "skills": [
+        "react-best-practices",
+        "shadcn",
+        "frontend-design",
+        "web-design-guidelines"
+      ],
+      "mcps": ["playwright-mcp", "chrome-devtools"],
+      "hooks": {
+        "PostToolUse": ["npm run build --no-cache 2>/dev/null || true"]
+      },
+      "rules": [
+        "Functional components with hooks, no class components",
+        "Props interfaces over PropTypes",
+        "Custom hooks for reusable logic",
+        "Zustand or Context for state management, not Redux by default"
+      ],
+      "settings": {},
+      "reason": "React 19+ has significant changes. These skills ensure proper patterns for hooks, concurrent rendering, and component architecture."
+    },
+    "vue": {
+      "detect": { "dep": "vue" },
+      "skills": ["framework-accessibility"],
+      "mcps": ["playwright-mcp"],
+      "hooks": { "PostToolUse": ["npm run build 2>/dev/null || true"] },
+      "rules": [
+        "Composition API with <script setup>",
+        "Pinia over Vuex for state management",
+        "TypeScript with defineProps/defineEmits"
+      ],
+      "settings": {},
+      "reason": "Vue 3 Composition API is the standard. These tools keep a11y and testing in check."
+    },
+    "svelte": {
+      "detect": { "dep": "svelte" },
+      "skills": ["framework-accessibility"],
+      "mcps": ["playwright-mcp"],
+      "hooks": { "PostToolUse": ["npm run build 2>/dev/null || true"] },
+      "rules": [
+        "Svelte 5 runes syntax ($state, $derived, $effect)",
+        ".svelte.ts files for shared logic",
+        "SvelteKit for full-stack apps"
+      ],
+      "settings": {},
+      "reason": "Svelte 5 changed the reactivity model. These rules prevent old patterns."
+    },
+    "astro": {
+      "detect": { "dep": "astro" },
+      "extends": ["typescript"],
+      "skills": [],
+      "mcps": [],
+      "hooks": { "PostToolUse": ["npm run build 2>/dev/null || true"] },
+      "rules": [
+        "Content collections for blog/docs",
+        "Islands architecture for interactivity",
+        ".astro files for templates, framework components only when needed"
+      ],
+      "settings": {},
+      "reason": "Astro's islands architecture is different from SPAs. These rules keep the pattern correct."
+    },
+    "express": {
+      "detect": { "dep": "express" },
+      "extends": ["typescript"],
+      "skills": [],
+      "mcps": [],
+      "hooks": {},
+      "rules": [
+        "Route handlers in separate files by resource",
+        "Error handling middleware as the last app.use()",
+        "Zod for request validation, not manual checks"
+      ],
+      "settings": {},
+      "reason": "Express is unopinionated. These rules enforce a consistent structure."
+    },
+    "fastapi": {
+      "detect": { "dep": "fastapi" },
+      "extends": ["python"],
+      "skills": [],
+      "mcps": [],
+      "hooks": {},
+      "rules": [
+        "Pydantic v2 for request/response models",
+        "Dependency injection for auth and DB sessions",
+        "Background tasks for side effects, not sync blocking"
+      ],
+      "settings": {},
+      "reason": "FastAPI patterns with Pydantic v2 + dependency injection keep APIs clean."
+    },
+    "django": {
+      "detect": { "dep": "django" },
+      "extends": ["python"],
+      "skills": [],
+      "mcps": [],
+      "hooks": {},
+      "rules": [
+        "Class-based views for CRUD, function views for simple endpoints",
+        "Select_related/prefetch_related for query optimization",
+        "Signals only for decoupled apps, not business logic"
+      ],
+      "settings": {},
+      "reason": "Django conventions reduce boilerplate. These rules prevent common N+1 and signal abuse."
+    },
+    "nuxt": {
+      "detect": { "dep": "nuxt" },
+      "extends": ["vue", "typescript"],
+      "skills": [],
+      "mcps": [],
+      "hooks": {},
+      "rules": [
+        "Auto-imports are available, no manual import needed for composables",
+        "Server routes in server/api/",
+        "useFetch over $fetch for SSR data"
+      ],
+      "settings": {},
+      "reason": "Nuxt's conventions differ from raw Vue. Auto-imports and server routes are key."
+    }
+  },
+
+  "languages": {
+    "typescript": {
+      "detect": { "dep": "typescript", "file": "tsconfig.json" },
+      "skills": [],
+      "mcps": [],
+      "hooks": {
+        "PostToolUse": ["npx tsc --noEmit 2>/dev/null || true"]
+      },
+      "rules": [
+        "Use `unknown` instead of `any`",
+        "Enable strict mode in tsconfig",
+        "Prefer interfaces for object shapes, types for unions"
+      ],
+      "settings": {},
+      "reason": "TypeScript strict mode catches more bugs at compile time. No `any` prevents type erosion."
+    },
+    "python": {
+      "detect": {
+        "file": ["pyproject.toml", "requirements.txt", "setup.py", "setup.cfg"]
+      },
+      "skills": [],
+      "mcps": ["sqlite"],
+      "hooks": {
+        "PostToolUse": ["ruff check --fix 2>/dev/null || true"]
+      },
+      "rules": [
+        "Type hints on all function signatures",
+        "Pydantic for data validation, not dicts",
+        "pathlib over os.path"
+      ],
+      "settings": {},
+      "reason": "Modern Python (3.12+) with type hints + ruff catches most bugs before runtime."
+    },
+    "rust": {
+      "detect": { "file": "Cargo.toml" },
+      "skills": [],
+      "mcps": [],
+      "hooks": {
+        "PostToolUse": [
+          "cargo check 2>/dev/null || true",
+          "cargo clippy --no-deps 2>/dev/null || true"
+        ]
+      },
+      "rules": [
+        "Clippy warnings are errors — fix them",
+        "Prefer `thiserror` for library errors, `anyhow` for binaries",
+        "Use `cargo check` before `cargo build` for faster iteration"
+      ],
+      "settings": {},
+      "reason": "Rust's compiler is strict already; clippy catches idiomatic issues that the compiler misses."
+    },
+    "go": {
+      "detect": { "file": "go.mod" },
+      "skills": [],
+      "mcps": [],
+      "hooks": {
+        "PostToolUse": [
+          "gofmt -w . 2>/dev/null || true",
+          "go vet ./... 2>/dev/null || true"
+        ]
+      },
+      "rules": [
+        "Interfaces should be small (1-3 methods)",
+        "Errors are values, not exceptions",
+        "Prefer `errgroup` for concurrent operations"
+      ],
+      "settings": {},
+      "reason": "Go conventions are enforced by the toolchain. gofmt + go vet cover most style and correctness issues."
+    }
+  },
+
+  "testing": {
+    "vitest": {
+      "detect": { "dep": "vitest" },
+      "hooks": {
+        "PostToolUse": ["npx vitest run --changed 2>/dev/null || true"]
+      },
+      "rules": ["describe/it blocks, mock at module level with vi.mock()"],
+      "settings": {},
+      "reason": "Running changed tests after edits catches regressions early."
+    },
+    "jest": {
+      "detect": { "dep": "jest" },
+      "hooks": {
+        "PostToolUse": ["npx jest --changedSince=HEAD 2>/dev/null || true"]
+      },
+      "rules": ["describe/it blocks, jest.mock for modules"],
+      "settings": {},
+      "reason": "Changed-file testing is fast enough to run on every edit."
+    },
+    "playwright_test": {
+      "detect": { "dep": "@playwright/test" },
+      "skills": ["playwright-testing"],
+      "mcps": ["playwright-mcp"],
+      "hooks": {},
+      "rules": ["Page Object Model for reusable selectors"],
+      "settings": {},
+      "reason": "Playwright skills + MCP enable browser-based testing from within Claude Code."
+    },
+    "pytest": {
+      "detect": { "dep": "pytest" },
+      "hooks": {
+        "PostToolUse": [
+          "python -m pytest --failed-first --quiet 2>/dev/null || true"
+        ]
+      },
+      "rules": ["Fixtures over setup/teardown, parametrize for multiple cases"],
+      "settings": {},
+      "reason": "Fast failure detection with --failed-first keeps feedback loops short."
+    }
+  },
+
+  "databases": {
+    "prisma": {
+      "detect": { "dep": "@prisma/client", "file": "prisma/schema.prisma" },
+      "skills": ["database-schema-designer"],
+      "mcps": ["sqlite"],
+      "rules": [
+        "Prisma is the source of truth — edit schema.prisma, not raw SQL",
+        "Use Prisma migrations, not push, for production"
+      ],
+      "settings": {},
+      "reason": "Prisma's schema-first approach keeps the database and types in sync."
+    },
+    "postgresql": {
+      "detect": { "dep": ["pg", "postgres", "@neondatabase/serverless"] },
+      "skills": ["database-schema-designer"],
+      "mcps": ["sqlite"],
+      "rules": [
+        "Connection pooling via PgBouncer or serverless pooler",
+        "Index columns used in WHERE and JOIN, not everything",
+        "Use migrations, not raw schema changes"
+      ],
+      "settings": {},
+      "reason": "Postgres needs careful index management and connection pooling at scale."
+    },
+    "sqlite": {
+      "detect": { "dep": ["better-sqlite3", "sql.js", "drizzle-orm/sqlite"] },
+      "mcps": ["sqlite"],
+      "rules": ["WAL mode for concurrent reads, busy_timeout for writes"],
+      "settings": {},
+      "reason": "SQLite's MCP server gives Claude direct database access for queries and migrations."
+    },
+    "mongodb": {
+      "detect": { "dep": ["mongoose", "mongodb"] },
+      "rules": [
+        "Index frequently-queried fields",
+        "Use aggregation pipeline over multiple queries",
+        "Schema validation at the application level"
+      ],
+      "settings": {},
+      "reason": "MongoDB requires careful index planning to avoid full collection scans."
+    },
+    "redis": {
+      "detect": { "dep": ["ioredis", "redis"] },
+      "rules": [
+        "Use Redis for caching and pub/sub, not as primary database",
+        "Set TTL on all cache keys",
+        "Connection pooling for high-throughput scenarios"
+      ],
+      "settings": {},
+      "reason": "Redis is fast but not persistent by default — TTL prevents stale data buildup."
+    }
+  },
+
+  "css": {
+    "tailwind": {
+      "detect": { "dep": "tailwindcss", "file": "tailwind.config.*" },
+      "skills": ["shadcn", "design-system", "frontend-design"],
+      "rules": [
+        "Use Tailwind utility classes, not custom CSS, for most styling",
+        "Extract repeated patterns into @apply or React components",
+        "Follow the project's design tokens in tailwind.config"
+      ],
+      "settings": {},
+      "reason": "Tailwind + shadcn gives you a design system without writing custom CSS."
+    },
+    "shadcn": {
+      "detect": { "file": "components.json" },
+      "skills": ["shadcn"],
+      "mcps": ["better-icons"],
+      "rules": [
+        "Use the shadcn skill for adding/modifying components",
+        "Customize components in the components/, not by editing the shadcn source"
+      ],
+      "settings": {},
+      "reason": "The shadcn skill knows the exact registry structure and avoids component breakage."
+    }
+  },
+
+  "ci_cd": {
+    "github_actions": {
+      "detect": { "glob": ".github/workflows/*.yml" },
+      "skills": [],
+      "hooks": {
+        "PreToolUse": ["check for hardcoded secrets in workflow files"]
+      },
+      "rules": [
+        "Use GitHub Actions secrets, not hardcoded values",
+        "Pin action versions by commit SHA, not tag",
+        "Cache dependencies between runs"
+      ],
+      "settings": {},
+      "reason": "CI/CD workflows are security-sensitive — pinned versions and secret management prevent supply-chain attacks."
+    },
+    "vercel": {
+      "detect": { "file": "vercel.json" },
+      "skills": ["vercel-optimize", "deploy-to-vercel"],
+      "rules": [
+        "Configure preview deployments for every PR",
+        "Set up custom domains in vercel.json, not dashboard"
+      ],
+      "settings": {},
+      "reason": "Vercel-specific skills optimize deployment configuration and cost."
+    }
+  },
+
+  "mobile": {
+    "react_native": {
+      "detect": { "dep": "react-native" },
+      "extends": ["react", "typescript"],
+      "skills": [],
+      "mcps": [],
+      "rules": [
+        "StyleSheet.create over inline styles",
+        "FlatList over ScrollView for long lists",
+        "React Navigation for routing"
+      ],
+      "settings": {},
+      "reason": "React Native shares React patterns but has mobile-specific performance considerations."
+    }
+  },
+
+  "infra": {
+    "docker": {
+      "detect": { "file": "Dockerfile" },
+      "rules": [
+        "Multi-stage builds for smaller images",
+        "Use specific base image tags, not latest",
+        ".dockerignore for smaller build context"
+      ],
+      "settings": {},
+      "reason": "Multi-stage builds and specific tags reduce image size and ensure reproducibility."
+    },
+    "terraform": {
+      "detect": { "glob": "*.tf" },
+      "rules": [
+        "Remote state backend, never local",
+        "Workspaces for environment separation",
+        "Modules for reusable infrastructure"
+      ],
+      "settings": {},
+      "reason": "Remote state prevents drift and enables team collaboration."
+    }
+  }
+}
